@@ -10,7 +10,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(HomeController());
     final homeC = Get.find<HomeController>();
-
+    homeC.getTodos();
     return Scaffold(
       appBar: AppBar(
         title: Row(children: [
@@ -20,7 +20,10 @@ class HomeView extends StatelessWidget {
         ]),
         leading: IconButton(
           icon: Icon(Icons.ac_unit),
-          onPressed: () => homeC.kirim(),
+          onPressed: () {
+            homeC.kirim();
+            homeC.getTodos();
+          },
         ),
         actions: [
           IconButton(
@@ -46,8 +49,20 @@ class HomeView extends StatelessWidget {
               ),
             ),
             Obx(() => Text("nanti Outputnya disini ${homeC.tmpInputan.value}")),
-            SizedBox(height: 5,),
-            // Text("nanti Outputnya disini ${homeC.tmpInputan.value}"),
+            SizedBox(
+              height: 5,
+            ),
+            GetX<HomeController>(
+              builder: (homeC) {
+                return DropdownButtonFormField(
+                  items: homeC.cmbItemTodos.value,
+                  value: homeC.creatorTodos.value,
+                  onChanged: (value) {
+                    print(value);
+                  },
+                );
+              },
+            )
           ],
         ),
       ),
